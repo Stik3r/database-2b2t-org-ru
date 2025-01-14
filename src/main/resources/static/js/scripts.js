@@ -23,3 +23,22 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 });
+
+
+function topButton() {
+    var messageFormBottom = document.getElementById('messageFormBottom');
+    if (messageFormBottom.classList.contains('collapsing')) {
+        var messageAreaTop = document.getElementById('messageAreaTop');
+        var messageAreaBot = document.getElementById('messageAreaBot');
+        messageAreaTop.value = messageAreaBot.value;
+    }
+}
+
+function botButton() {
+    var messageFormBottom = document.getElementById('messageFormTop');
+    if (messageFormBottom.classList.contains('collapsing')) {
+        var messageAreaTop = document.getElementById('messageAreaTop');
+        var messageAreaBot = document.getElementById('messageAreaBot');
+        messageAreaBot.value = messageAreaTop.value;
+    }
+}

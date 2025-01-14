@@ -51,15 +51,17 @@
                     <h1 class="mt-4 mb-5 text-center">Супер пупер форум</h1>
                     <h4 class="text-center mb-5">Форму и вики по чему угодно, я пока хз по чему</h4>
                     <div class="container mt-5 mb-5 text-center">
-                        <button class="btn btn-primary thread-maker mb-5 " type="button" data-bs-toggle="collapse" data-bs-target="#messageForm" aria-expanded="false" aria-controls="messageForm"> Создать тред </button>
+                        <button class="btn btn-primary thread-maker mb-2 btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#messageForm" aria-expanded="false" aria-controls="messageForm"> Создать тред </button>
                         <div class="collapse w-75 mx-auto" id="messageForm">
                             <div class="card card-body">
                                 <form th:action="@{/makeThread}" th:object="${newThread}" method="post">
                                     <div class="form-group mt-1 mb-2">
-                                        <input th:field="*{head_thread}" type="text" minlength="2" maxlength="1000" class="form-control w-50 mb-1" id="threadHead" placeholder="Тема треда"></input>
+                                        <div class="d-flex mb-2">
+                                            <input th:field="*{head_thread}" type="text" minlength="2" maxlength="1000" class="form-control w-75 me-2" id="threadHead" placeholder="Тема треда">
+                                            <button type="submit" class="btn btn-success btn-sm ml-2">Отправить</button>
+                                        </div>
                                         <textarea th:field="*{body}" minlength="2" maxlength="5000" class="form-control" id="threadBody" rows="5" placeholder="Комментарий"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success">Отправить</button>
                                 </form>
                             </div>
                         </div>
@@ -72,7 +74,7 @@
                                     <div class="small text-muted" th:text="${#temporals.format(thread.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
                                     <h2 class="card-title" th:text="${thread.head_thread}"></h2>
                                     <p class="card-text" th:text="${thread.body}"></p>
-                                    <a class="btn btn-primary" th:href="@{/{threadId}(threadId=${thread.id})}">Ответить</a>
+                                    <a class="btn btn-primary btn-sm" th:href="@{/{threadId}(threadId=${thread.id})}">Ответить</a>
                                 </div>
                             </div>
                         </tr>
@@ -83,6 +85,7 @@
         </div>
         <!-- Core theme JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
         <script src="js/scripts.js"></script>
     </body>
 </html>

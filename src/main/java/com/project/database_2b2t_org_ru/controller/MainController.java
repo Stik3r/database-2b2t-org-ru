@@ -34,6 +34,13 @@ public class MainController {
         return "thread";
     }
 
+    @RequestMapping("/{id}/refresh")
+    public String refreshThread(@PathVariable("id") int id, Model model){
+        Thread thread = threadService.getObjectById(id);
+        model.addAttribute("thread", thread);
+        return "thread";
+    }
+
     @RequestMapping("/makeThread")
     public String makeThread(@ModelAttribute("newThread") Thread thread, Model model){
         thread.setDateTime(LocalDateTime.now());
