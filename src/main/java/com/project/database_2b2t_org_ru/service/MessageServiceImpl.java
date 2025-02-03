@@ -39,4 +39,9 @@ public class MessageServiceImpl implements MessageService {
     public void deleteObjectById(int id) {
         messageRepository.deleteById(id);
     }
+
+    @Override
+    public List<Message> getAllMessafeForThread(int threadId) {
+        return messageRepository.findAllByThreadId(threadId);
+    }
 }

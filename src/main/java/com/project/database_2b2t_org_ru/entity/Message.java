@@ -14,6 +14,25 @@ public class Message {
     @Column(name = "message_body")
     private String message_body;
 
+    @Column(name = "thread_id")
+    private int threadId;
+
+    public int getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(int threadId) {
+        this.threadId = threadId;
+    }
+
+    public String getMessage_body() {
+        return message_body;
+    }
+
+    public void setMessage_body(String message_body) {
+        this.message_body = message_body;
+    }
+
     public int getId() {
         return id;
     }
@@ -21,4 +40,5 @@ public class Message {
     public void setId(int id) {
         this.id = id;
     }
+
 }

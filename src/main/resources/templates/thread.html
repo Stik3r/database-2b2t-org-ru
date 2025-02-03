@@ -58,9 +58,9 @@
                 <button onclick="botButton()" class="btn btn-primary thread-maker mb-2 btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#messageFormBottom" aria-expanded="false" aria-controls="messageFormBottom">Ответить</button>
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormBottom" data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form  method="post">
+                        <form th:action="@{/sendMessage}" th:object="${newMessage}"  method="post">
                             <div class="form-group mt-1 mb-2">
-                                <textarea  minlength="2" maxlength="5000" class="form-control" id="messageAreaBot" rows="5" placeholder="Комментарий"></textarea>
+                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control" id="messageAreaBot" rows="5" placeholder="Комментарий"></textarea>
                                 <button type="submit" class="btn btn-success btn-sm mt-2">Отправить</button>
                             </div>
                         </form>
