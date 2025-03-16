@@ -2,12 +2,14 @@ package com.project.database_2b2t_org_ru.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="message_dbt")
 public class Message {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -16,6 +18,9 @@ public class Message {
 
     @Column(name = "thread_id")
     private int threadId;
+
+    @Column(name = "date_Time")
+    private LocalDateTime dateTime;
 
     public int getThreadId() {
         return threadId;
@@ -39,6 +44,14 @@ public class Message {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
 }
