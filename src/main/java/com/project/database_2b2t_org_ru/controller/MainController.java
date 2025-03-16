@@ -38,6 +38,7 @@ public class MainController {
         model.addAttribute("thread", thread);
 
         List messages = messageService.getAllMessafeForThread(Integer.parseInt(id));
+        messages.remove(0);
         model.addAttribute("messages", messages);
 
 
@@ -66,6 +67,9 @@ public class MainController {
         message.setDateTime(dateTime);
         message.setMessage_body(thread.getBody());
         messageService.saveObject(message);
+
+        thread.setFirstMessageID(message.getId());
+        threadService.saveObject(thread);
 
         return "redirect:/" + String.valueOf(thread.getId());
     }
