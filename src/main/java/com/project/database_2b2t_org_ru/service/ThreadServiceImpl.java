@@ -4,6 +4,8 @@ import com.project.database_2b2t_org_ru.dao.ThreadRepository;
 import com.project.database_2b2t_org_ru.entity.Thread;
 import com.project.database_2b2t_org_ru.service.interfaces.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +31,7 @@ public class ThreadServiceImpl implements ThreadService {
     public Thread getObjectById(int id) {
         Thread thread = null;
         Optional<Thread> thrd = threadRepository.findById(id);
-        if(thrd.isPresent()){
+        if (thrd.isPresent()) {
             thread = thrd.get();
         }
         return thread;
@@ -38,5 +40,11 @@ public class ThreadServiceImpl implements ThreadService {
     @Override
     public void deleteObjectById(int id) {
         threadRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Thread> findAllOnPage(int page, int size) {
+        Page<Thread> threadPage = threadRepository.findAll(PageRequest.of(page, size));
+        return threadPage.getContent();
     }
 }

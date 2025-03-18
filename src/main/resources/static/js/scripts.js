@@ -5,7 +5,9 @@
 */
 // 
 // Scripts
-// 
+//
+
+
 
 window.addEventListener('DOMContentLoaded', event => {
 
@@ -42,3 +44,7 @@ function botButton() {
         messageAreaBot.value = messageAreaTop.value;
     }
 }
+
+
+
+

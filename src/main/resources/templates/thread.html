@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>Simple Sidebar - Start Bootstrap Template</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/additionalStyles.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/additionalStyles.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="d-flex" id="wrapper">
@@ -29,18 +29,26 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container-fluid">
                 <button class="btn btn-primary" id="sidebarToggle">Menu</button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
             </div>
         </nav>
         <!-- Page content-->
         <div class="container-fluid accordion" id="mainContainer">
             <div class="container mt-5 mb-5 text-center">
-                <button onclick="topButton()" id="topButton" class="btn btn-primary thread-maker mb-2 btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#messageFormTop" aria-expanded="false" aria-controls="messageFormTop">Ответить</button>
-                <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormTop" data-bs-parent="#mainContainer">
+                <button onclick="topButton()" id="topButton" class="btn btn-primary thread-maker mb-2 btn-sm"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#messageFormTop" aria-expanded="false"
+                        aria-controls="messageFormTop">Ответить
+                </button>
+                <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormTop"
+                     data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}"  method="post">
+                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post">
                             <div class="form-group mt-1 mb-2">
-                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control" id="messageAreaTop" rows="5" placeholder="Комментарий"></textarea>
+                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
+                                          id="messageAreaTop" rows="5" placeholder="Комментарий"></textarea>
                                 <button type="submit" class="btn btn-success btn-sm mt-2">Отправить</button>
                             </div>
                         </form>
@@ -49,30 +57,31 @@
             </div>
             <div class="card mt-5 mb-4 ms-5 me-5">
                 <div class="card-body">
-                    <div class="small text-muted" th:text="${thread.firstMessageID + ' ' + #temporals.format(thread.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
+                    <div class="small text-muted"
+                         th:text="${thread.firstMessageID + ' ' + #temporals.format(thread.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
                     <h2 class="card-title" th:text="${thread.head_thread}"></h2>
                     <p class="card-text" th:text="${thread.body}"></p>
                 </div>
             </div>
-            <table class="table">
-                <tbody>
-                <tr th:each="message: ${messages}">
-                    <div class="card mb-4 ms-5 me-5">
-                        <div class="card-body">
-                            <div class="small text-muted" th:text="${message.id + ' ' + #temporals.format(message.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
-                            <p class="card-text" th:text="${message.message_body}"></p>
-                        </div>
-                    </div>
-                </tr>
-                </tbody>
-            </table>
+            <div class="card mb-4 ms-5 me-5" th:each="message: ${messages}">
+                <div class="card-body">
+                    <div class="small text-muted"
+                         th:text="${message.id + ' ' + #temporals.format(message.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
+                    <p class="card-text" th:text="${message.message_body}"></p>
+                </div>
+            </div>
             <div class="container mt-5 mb-5 text-center">
-                <button onclick="botButton()" class="btn btn-primary thread-maker mb-2 btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#messageFormBottom" aria-expanded="false" aria-controls="messageFormBottom">Ответить</button>
-                <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormBottom" data-bs-parent="#mainContainer">
+                <button onclick="botButton()" class="btn btn-primary thread-maker mb-2 btn-sm" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#messageFormBottom" aria-expanded="false"
+                        aria-controls="messageFormBottom">Ответить
+                </button>
+                <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormBottom"
+                     data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}"  method="post">
+                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post">
                             <div class="form-group mt-1 mb-2">
-                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control" id="messageAreaBot" rows="5" placeholder="Комментарий"></textarea>
+                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
+                                          id="messageAreaBot" rows="5" placeholder="Комментарий"></textarea>
                                 <button type="submit" class="btn btn-success btn-sm mt-2">Отправить</button>
                             </div>
                         </form>

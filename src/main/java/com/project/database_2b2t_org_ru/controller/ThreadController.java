@@ -12,28 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class MainController {
+public class ThreadController {
 
     @Autowired
     private ThreadService threadService;
     @Autowired
     private MessageService messageService;
 
-    @RequestMapping("/")
-    public String showIndex(Model model) {
-        List<Thread> threads = threadService.getAllObjects();
-        Thread thread = new Thread();
-        model.addAttribute("threads", threads);
-        model.addAttribute("newThread", thread);
-        return "index";
-    }
-
     @RequestMapping("/{id}")
-    public String showThread(@PathVariable("id") String id, Model model){
+    public String showThread(@PathVariable("id") String id, Model model) {
         Thread thread = threadService.getObjectById(Integer.parseInt(id));
         model.addAttribute("thread", thread);
 
@@ -48,7 +38,7 @@ public class MainController {
     }
 
     @RequestMapping("/{id}/refresh")
-    public String refreshThread(@PathVariable("id") String id, Model model){
+    public String refreshThread(@PathVariable("id") String id, Model model) {
         Thread thread = threadService.getObjectById(Integer.parseInt(id));
         model.addAttribute("thread", thread);
         model.addAttribute("newMessage", new Message());
@@ -56,7 +46,7 @@ public class MainController {
     }
 
     @RequestMapping("/makeThread")
-    public String makeThread(@ModelAttribute("newThread") Thread thread, Model model){
+    public String makeThread(@ModelAttribute("newThread") Thread thread, Model model) {
         LocalDateTime dateTime = LocalDateTime.now();
 
         thread.setDateTime(dateTime);
@@ -75,7 +65,7 @@ public class MainController {
     }
 
     @RequestMapping("/{id}/sendMessage")
-    public String sendMessage(@PathVariable("id") String id, @ModelAttribute("newMessage") Message newMessage, Model model){
+    public String sendMessage(@PathVariable("id") String id, @ModelAttribute("newMessage") Message newMessage, Model model) {
 
 
         newMessage.setThreadId(Integer.parseInt(id));
