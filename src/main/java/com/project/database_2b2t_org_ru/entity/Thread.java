@@ -24,6 +24,9 @@ public class Thread {
     @Column(name = "first_message_id")
     private int firstMessageID;
 
+    @Column(name = "last_update")
+    private LocalDateTime lastUpdate;
+
     public int getId() {
         return id;
     }
@@ -62,5 +65,13 @@ public class Thread {
 
     public void setFirstMessageID(int firstMessageID) {
         this.firstMessageID = firstMessageID;
+    }
+
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

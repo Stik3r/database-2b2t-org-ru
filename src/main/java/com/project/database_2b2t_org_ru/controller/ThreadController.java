@@ -50,6 +50,7 @@ public class ThreadController {
         LocalDateTime dateTime = LocalDateTime.now();
 
         thread.setDateTime(dateTime);
+        thread.setLastUpdate(dateTime);
         threadService.saveObject(thread);
 
         Message message = new Message();
@@ -67,11 +68,18 @@ public class ThreadController {
     @RequestMapping("/{id}/sendMessage")
     public String sendMessage(@PathVariable("id") String id, @ModelAttribute("newMessage") Message newMessage, Model model) {
 
+        LocalDateTime now = LocalDateTime.now();
+        int intId = Integer.parseInt(id);
 
-        newMessage.setThreadId(Integer.parseInt(id));
-        newMessage.setDateTime(LocalDateTime.now());
+        newMessage.setThreadId(intId);
+        newMessage.setDateTime(now);
+
+        Thread thread = threadService.getObjectById(intId);
+        thread.setLastUpdate(now);
+
         messageService.saveObject(newMessage);
-
+        threadService.saveObject(thread);
+        
         return "redirect:/" + id;
     }
 }
