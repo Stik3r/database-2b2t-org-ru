@@ -8,6 +8,7 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
     const fileInput = document.getElementById(fileInputId);
     const fileList = document.getElementById(fileListId);
 
+
     // Перетаскивание файлов
     dropZone.addEventListener('dragover', (event) => {
         event.preventDefault();
@@ -26,8 +27,13 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
     });
 
     // Клик для выбора файлов
-    dropZone.addEventListener('click', () => {
-        fileInput.click();
+    dropZone.addEventListener('click', (event) => {
+        // Проверяем, что клик был именно по dropZone, а не по кнопке
+        if (event.target === dropZone && !dropZone.classList.contains('processing')) {
+            dropZone.classList.add('processing');
+            fileInput.click();
+            setTimeout(() => dropZone.classList.remove('processing'), 100);
+        }
     });
 
     // Выбор файлов через input
@@ -39,58 +45,39 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
 
 // Функция обработки файлов
 function addFiles(files, fileList) {
+    const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
     const fileArray = Array.from(files);
+
     fileArray.forEach((file) => {
         // Проверяем, чтобы файл не был добавлен дважды
+        if (file.size > MAX_FILE_SIZE) {
+            alert(`Файл "${file.name}" превышает максимально допустимый размер 50 МБ.`);
+            return; // Пропускаем файл, если он слишком большой
+        }
+
         if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
 
             if (allFiles.length >= 4) {
                 alert('Вы можете прикрепить не более 4 файлов.');
-                return; // Прерываем обработку, если лимит достигнут
+                return;
             }
-            
+
             if (!allFiles.some((f) => f.name === file.name && f.size === file.size)) {
                 allFiles.push(file);
 
-                const filePreview = document.createElement('div');
-                filePreview.className = 'border p-1 rounded'; // Для аккуратного оформления
-                filePreview.style.width = '100px'; // Фиксированный размер
-                filePreview.style.height = '100px';
-                filePreview.style.overflow = 'hidden'; // Скрываем лишнее содержимое
-                filePreview.style.display = 'flex'; // Включаем flex-вёрстку внутри
-                filePreview.style.alignItems = 'center';
-                filePreview.style.justifyContent = 'center';
+                const filePreview = document.createElement('div')
 
-                if (file.type.startsWith('image/')) {
-                    // Превью изображения
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(file);
-                    img.alt = file.name;
-                    img.style.width = '100%';
-                    img.style.height = '100%';
-                    img.style.objectFit = 'cover'; // Пропорционально обрезает изображение
-                    img.className = 'rounded'; // Добавляем стиль округления углов
-                    filePreview.appendChild(img);
-                } else if (file.type.startsWith('video/')) {
-                    // Превью видео
-                    const video = document.createElement('video');
-                    video.src = URL.createObjectURL(file);
-                    video.controls = true;
-                    video.style.width = '100%';
-                    video.style.height = '100%';
-                    video.className = 'rounded'; // Тоже добавляем округление
-                    filePreview.appendChild(video);
-                }
+                makePreview(filePreview, file);
 
                 fileList.appendChild(filePreview);
             }
         } else {
-            console.error(`Файл ${file.name} не поддерживается.`);
             alert(`Файл ${file.name} не поддерживается.`);
         }
     });
 
-    console.log('Все файлы:', allFiles);
+    //console.log('Все файлы:', allFiles);
 }
 
 function topButton() {
@@ -142,35 +129,41 @@ function updateFileList(listId) {
     allFiles.forEach((file) => {
 
         const filePreview = document.createElement('div');
-        filePreview.className = 'border p-1 rounded'; // Для аккуратного оформления
-        filePreview.style.width = '100px'; // Фиксированный размер
-        filePreview.style.height = '100px';
-        filePreview.style.overflow = 'hidden'; // Скрываем лишнее содержимое
-        filePreview.style.display = 'flex'; // Включаем flex-вёрстку внутри
-        filePreview.style.alignItems = 'center';
-        filePreview.style.justifyContent = 'center';
 
-        if (file.type.startsWith('image/')) {
-            // Превью изображения
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.alt = file.name;
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover'; // Пропорционально обрезает изображение
-            img.className = 'rounded'; // Добавляем стиль округления углов
-            filePreview.appendChild(img);
-        } else if (file.type.startsWith('video/')) {
-            // Превью видео
-            const video = document.createElement('video');
-            video.src = URL.createObjectURL(file);
-            video.controls = true;
-            video.style.width = '100%';
-            video.style.height = '100%';
-            video.className = 'rounded'; // Тоже добавляем округление
-            filePreview.appendChild(video);
-        }
+        makePreview(filePreview, file);
+
         fileList.appendChild(filePreview);
     });
+}
+
+function makePreview(filePreview, file){
+    filePreview.className = 'border p-1 rounded'; // Для аккуратного оформления
+    filePreview.style.width = '100px'; // Фиксированный размер
+    filePreview.style.height = '100px';
+    filePreview.style.overflow = 'hidden'; // Скрываем лишнее содержимое
+    filePreview.style.display = 'flex'; // Включаем flex-вёрстку внутри
+    filePreview.style.alignItems = 'center';
+    filePreview.style.justifyContent = 'center';
+
+    if (file.type.startsWith('image/')) {
+        // Превью изображения
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.alt = file.name;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover'; // Пропорционально обрезает изображение
+        img.className = 'rounded'; // Добавляем стиль округления углов
+        filePreview.appendChild(img);
+    } else if (file.type.startsWith('video/')) {
+        // Превью видео
+        const video = document.createElement('video');
+        video.src = URL.createObjectURL(file);
+        video.controls = true;
+        video.style.width = '100%';
+        video.style.height = '100%';
+        video.className = 'rounded'; // Тоже добавляем округление
+        filePreview.appendChild(video);
+    }
 }
 

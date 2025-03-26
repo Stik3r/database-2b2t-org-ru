@@ -31,19 +31,18 @@ public class ThreadController {
         messages.remove(0);
         model.addAttribute("messages", messages);
 
-
         model.addAttribute("newMessage", new Message());
 
         return "thread";
     }
 
-    @RequestMapping("/{id}/refresh")
+    /*@RequestMapping("/{id}/refresh")
     public String refreshThread(@PathVariable("id") String id, Model model) {
         Thread thread = threadService.getObjectById(Integer.parseInt(id));
         model.addAttribute("thread", thread);
         model.addAttribute("newMessage", new Message());
         return "thread";
-    }
+    }*/
 
     @RequestMapping("/makeThread")
     public String makeThread(@ModelAttribute("newThread") Thread thread, Model model) {
@@ -70,10 +69,13 @@ public class ThreadController {
         LocalDateTime now = LocalDateTime.now();
         int intId = Integer.parseInt(id);
 
-        newMessage.setThreadId(intId);
-        newMessage.setDateTime(now);
+        Message message = new Message();
 
-        messageService.saveObject(newMessage);
+        message.setMessage_body(newMessage.getMessage_body());
+        message.setThreadId(intId);
+        message.setDateTime(now);
+
+        messageService.saveObject(message);
         
         return "redirect:/" + id;
     }
