@@ -50,7 +50,6 @@ public class ThreadController {
         LocalDateTime dateTime = LocalDateTime.now();
 
         thread.setDateTime(dateTime);
-        thread.setLastUpdate(dateTime);
         threadService.saveObject(thread);
 
         Message message = new Message();
@@ -74,11 +73,7 @@ public class ThreadController {
         newMessage.setThreadId(intId);
         newMessage.setDateTime(now);
 
-        Thread thread = threadService.getObjectById(intId);
-        thread.setLastUpdate(now);
-
         messageService.saveObject(newMessage);
-        threadService.saveObject(thread);
         
         return "redirect:/" + id;
     }
