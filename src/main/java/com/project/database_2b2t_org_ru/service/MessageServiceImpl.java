@@ -26,7 +26,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getObjectById(int id) {
+    public Message getObjectById(long id) {
         Message message = null;
         Optional<Message> msg = messageRepository.findById(id);
         if (msg.isPresent()) {
@@ -36,12 +36,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteObjectById(int id) {
+    public void deleteObjectById(long id) {
         messageRepository.deleteById(id);
     }
 
     @Override
-    public List<Message> getAllMessafeForThread(int threadId) {
+    public List<Message> getAllMessafeForThread(long threadId) {
         return messageRepository.findAllByThreadId(threadId);
     }
 }

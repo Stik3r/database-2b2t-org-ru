@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MessageService extends MainService<Message> {
 
-    public List<Message> getAllMessafeForThread(int threadId);
+    public List<Message> getAllMessafeForThread(long threadId);
 }

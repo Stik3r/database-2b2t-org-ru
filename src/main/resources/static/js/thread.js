@@ -8,7 +8,6 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
     const fileInput = document.getElementById(fileInputId);
     const fileList = document.getElementById(fileListId);
 
-
     // Перетаскивание файлов
     dropZone.addEventListener('dragover', (event) => {
         event.preventDefault();
@@ -40,6 +39,21 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
     fileInput.addEventListener('change', (event) => {
         const files = Array.from(event.target.files);
         addFiles(files, fileList);
+    });
+
+    // Добавляем обработчик отправки формы
+    const form = dropZone.closest('form');
+    form.addEventListener('submit', (event) => {
+        // Создаем новый DataTransfer объект
+        const dataTransfer = new DataTransfer();
+        
+        // Добавляем все файлы из allFiles в DataTransfer
+        allFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        
+        // Устанавливаем файлы в input
+        fileInput.files = dataTransfer.files;
     });
 }
 

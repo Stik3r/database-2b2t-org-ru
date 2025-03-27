@@ -3,6 +3,7 @@ package com.project.database_2b2t_org_ru.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="message_dbt")
@@ -11,23 +12,35 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "message_body")
     private String message_body;
 
-    @Column(name = "thread_id")
-    private int threadId;
+    @ManyToOne
+    @JoinColumn(name = "thread_id")
+    private Thread thread;
 
     @Column(name = "date_Time")
     private LocalDateTime dateTime;
 
-    public int getThreadId() {
-        return threadId;
+    @Transient
+    private List<AttachedFiles> attachedFiles;
+
+    public List<AttachedFiles> getAttachedFiles() {
+        return attachedFiles;
     }
 
-    public void setThreadId(int threadId) {
-        this.threadId = threadId;
+    public void setAttachedFiles(List<AttachedFiles> attachedFiles) {
+        this.attachedFiles = attachedFiles;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 
     public String getMessage_body() {
@@ -38,11 +51,11 @@ public class Message {
         this.message_body = message_body;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

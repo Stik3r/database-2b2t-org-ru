@@ -28,7 +28,7 @@ public class ThreadServiceImpl implements ThreadService {
     }
 
     @Override
-    public Thread getObjectById(int id) {
+    public Thread getObjectById(long id) {
         Thread thread = null;
         Optional<Thread> thrd = threadRepository.findById(id);
         if (thrd.isPresent()) {
@@ -38,7 +38,7 @@ public class ThreadServiceImpl implements ThreadService {
     }
 
     @Override
-    public void deleteObjectById(int id) {
+    public void deleteObjectById(long id) {
         threadRepository.deleteById(id);
     }
 

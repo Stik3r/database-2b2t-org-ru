@@ -7,7 +7,7 @@ public interface MainService<T> {
 
     public void saveObject(T object);
 
-    public T getObjectById(int id);
+    public T getObjectById(long id);
 
-    public void deleteObjectById(int id);
+    public void deleteObjectById(long id);
 }

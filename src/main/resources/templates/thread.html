@@ -45,14 +45,14 @@
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormTop"
                      data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post">
+                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post" enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
                                 <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
                                           id="messageAreaTop" rows="5" placeholder="Комментарий" required></textarea>
 
                                 <div id="dropZoneTop" class="border rounded p-3 text-center bg-light">
                                     Перетащите файлы сюда или <label for="fileInputTop" class="text-primary">выберите файлы</label>.
-                                    <input type="file" id="fileInputTop" class="d-none" multiple>
+                                    <input type="file" id="fileInputTop" name="files" class="d-none" multiple>
                                 </div>
 
                                 <div id="fileListTop" class="mt-2 d-flex flex-wrap gap-2 justify-content-start">
@@ -88,14 +88,14 @@
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormBottom"
                      data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post">
+                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post" enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
                                 <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
                                           id="messageAreaBot" rows="5" placeholder="Комментарий" required></textarea>
 
                                 <div id="dropZoneBottom" class="border rounded p-3 text-center bg-light">
                                     Перетащите файлы сюда или <label for="fileInputBottom" class="text-primary">выберите файлы</label>.
-                                    <input type="file" id="fileInputBottom" class="d-none" multiple>
+                                    <input type="file" id="fileInputBottom" name="files" class="d-none" multiple>
                                 </div>
 
                                 <div id="fileListBottom" class="mt-2 d-flex flex-wrap gap-2 justify-content-start">

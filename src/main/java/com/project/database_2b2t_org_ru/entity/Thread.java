@@ -10,7 +10,7 @@ public class Thread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "head_thread")
     private String head_thread;
@@ -22,16 +22,16 @@ public class Thread {
     private LocalDateTime dateTime;
 
     @Column(name = "first_message_id")
-    private int firstMessageID;
+    private long firstMessageID;
 
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -59,11 +59,11 @@ public class Thread {
         this.dateTime = dateTime;
     }
 
-    public int getFirstMessageID() {
+    public long getFirstMessageID() {
         return firstMessageID;
     }
 
-    public void setFirstMessageID(int firstMessageID) {
+    public void setFirstMessageID(long firstMessageID) {
         this.firstMessageID = firstMessageID;
     }
 
