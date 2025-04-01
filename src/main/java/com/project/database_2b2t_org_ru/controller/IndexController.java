@@ -22,8 +22,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String showIndex(Model model) {
-        List<Thread> threads = CommonUtils.sortByField(new ArrayList<>(threadService.findAllOnPage(0, 5)),
-                Comparator.comparing(Thread::getLastUpdate).reversed());
+        List<Thread> threads = threadService.findAllOnPage(0, 5);
 
 
         Thread thread = new Thread();

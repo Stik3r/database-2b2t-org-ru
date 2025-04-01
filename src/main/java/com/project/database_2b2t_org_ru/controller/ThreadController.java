@@ -3,9 +3,9 @@ package com.project.database_2b2t_org_ru.controller;
 import com.project.database_2b2t_org_ru.entity.AttachedFiles;
 import com.project.database_2b2t_org_ru.entity.Message;
 import com.project.database_2b2t_org_ru.entity.Thread;
+import com.project.database_2b2t_org_ru.service.AttachedFilesServiceImpl;
 import com.project.database_2b2t_org_ru.service.interfaces.MessageService;
 import com.project.database_2b2t_org_ru.service.interfaces.ThreadService;
-import com.project.database_2b2t_org_ru.service.interfaces.AttachedFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ThreadController {
@@ -26,7 +27,7 @@ public class ThreadController {
     @Autowired
     private MessageService messageService;
     @Autowired
-    private AttachedFilesService attachedFilesService;
+    private AttachedFilesServiceImpl attachedFilesService;
 
     @RequestMapping("/{id}")
     public String showThread(@PathVariable("id") String id, Model model) {
@@ -40,7 +41,9 @@ public class ThreadController {
         // Получаем файлы для каждого сообщения
         for (Message message : messages) {
             List<AttachedFiles> files = attachedFilesService.findAllByMessageId(message.getId());
+
             message.setAttachedFiles(files);
+            message.setThumbnails(attachedFilesService.createImageThumbnailList(files, 200, 200));
         }
 
         model.addAttribute("newMessage", new Message());
@@ -67,10 +70,10 @@ public class ThreadController {
     }
 
     @RequestMapping("/{id}/sendMessage")
-    public String sendMessage(@PathVariable("id") String id, 
-                            @ModelAttribute("newMessage") Message newMessage,
-                            @RequestParam(value = "files", required = false) MultipartFile[] files,
-                            Model model) {
+    public String sendMessage(@PathVariable("id") String id,
+                              @ModelAttribute("newMessage") Message newMessage,
+                              @RequestParam(value = "files", required = false) MultipartFile[] files,
+                              Model model) {
         LocalDateTime now = LocalDateTime.now();
         int intId = Integer.parseInt(id);
 
@@ -81,7 +84,7 @@ public class ThreadController {
         message.setDateTime(now);
 
         messageService.saveObject(message);
-        
+
         // Обработка файлов
         if (files != null && files.length > 0) {
             try {
@@ -90,7 +93,7 @@ public class ThreadController {
                 model.addAttribute("error", e.getMessage());
             }
         }
-        
+
         return "redirect:/" + id;
     }
 }

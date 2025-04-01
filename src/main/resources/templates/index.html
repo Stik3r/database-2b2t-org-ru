@@ -48,8 +48,8 @@
         </nav>
         <!-- Page content-->
         <div class="container-fluid">
-            <h1 class="mt-4 mb-5 text-center">2b2t.org.ru форум</h1>
-            <h4 class="text-center mb-5">Форму и вики по 2b2t.org.ru</h4>
+            <h1 class="mt-4 mb-5 text-center">форум</h1>
+            <h4 class="text-center mb-5">Форму и вики</h4>
             <div class="container mt-5 mb-5 text-center">
                 <button class="btn btn-primary thread-maker mb-2 btn-sm" type="button" data-bs-toggle="collapse"
                         data-bs-target="#messageForm" aria-expanded="false" aria-controls="messageForm"> Создать тред
@@ -74,7 +74,7 @@
                 <div class="card mb-4 ms-5 me-5" th:each="thread: ${threads}">
                     <div class="card-body">
                         <div class="small text-muted"
-                             th:text="${thread.firstMessageID + ' ' + #temporals.format(thread.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
+                             th:text="${thread.firstMessageID + ' ' + #temporals.format(thread.dateTime, 'dd.MM.yyyy HH:mm:ss')}"></div>
                         <h2 class="card-title" th:text="${thread.head_thread}"></h2>
                         <p class="card-text" th:text="${thread.body}"></p>
                         <a class="btn btn-primary btn-sm" th:href="@{/{threadId}(threadId=${thread.id})}">Ответить</a>

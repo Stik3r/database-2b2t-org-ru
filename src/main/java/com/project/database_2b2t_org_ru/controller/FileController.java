@@ -21,13 +21,9 @@ public class FileController {
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
         AttachedFiles file = attachedFilesService.getObjectById(id);
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(file.getFileType()));
-        headers.setContentDispositionFormData("attachment", file.getFileName());
-        
+
         return ResponseEntity.ok()
-                .headers(headers)
+                .contentType(MediaType.valueOf(file.getFileType()))
                 .body(file.getFileBytea());
     }
 } 

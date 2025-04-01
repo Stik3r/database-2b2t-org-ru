@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="message_dbt")
+@Table(name = "message_dbt")
 public class Message {
 
     @Id
@@ -26,6 +26,9 @@ public class Message {
 
     @Transient
     private List<AttachedFiles> attachedFiles;
+
+    @Transient
+    private List<byte[]> thumbnails;
 
     public List<AttachedFiles> getAttachedFiles() {
         return attachedFiles;
@@ -67,4 +70,11 @@ public class Message {
         this.dateTime = dateTime;
     }
 
+    public List<byte[]> getThumbnails() {
+        return thumbnails;
+    }
+
+    public void setThumbnails(List<byte[]> thumbnails) {
+        this.thumbnails = thumbnails;
+    }
 }

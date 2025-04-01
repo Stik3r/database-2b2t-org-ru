@@ -46,12 +46,12 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
     form.addEventListener('submit', (event) => {
         // Создаем новый DataTransfer объект
         const dataTransfer = new DataTransfer();
-        
+
         // Добавляем все файлы из allFiles в DataTransfer
         allFiles.forEach(file => {
             dataTransfer.items.add(file);
         });
-        
+
         // Устанавливаем файлы в input
         fileInput.files = dataTransfer.files;
     });
@@ -150,7 +150,7 @@ function updateFileList(listId) {
     });
 }
 
-function makePreview(filePreview, file){
+function makePreview(filePreview, file) {
     filePreview.className = 'border p-1 rounded'; // Для аккуратного оформления
     filePreview.style.width = '100px'; // Фиксированный размер
     filePreview.style.height = '100px';
