@@ -6,8 +6,6 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Simple Sidebar - Start Bootstrap Template</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/bootstrap.css" rel="stylesheet"/>
     <link href="css/additionalStyles.css" rel="stylesheet"/>
@@ -16,7 +14,7 @@
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
     <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Database </div>
+        <div class="sidebar-heading border-bottom bg-light">Database</div>
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/">Forum</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Wiki</a>
@@ -45,13 +43,15 @@
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormTop"
                      data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post" enctype="multipart/form-data">
+                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
+                              enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
                                 <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
                                           id="messageAreaTop" rows="5" placeholder="Комментарий" required></textarea>
 
                                 <div id="dropZoneTop" class="border rounded p-3 text-center bg-light">
-                                    Перетащите файлы сюда или <label for="fileInputTop" class="text-primary">выберите файлы</label>.
+                                    Перетащите файлы сюда или <label for="fileInputTop" class="text-primary">выберите
+                                    файлы</label>.
                                     <input type="file" id="fileInputTop" name="files" class="d-none" multiple>
                                 </div>
 
@@ -73,16 +73,31 @@
                     <p class="card-text" th:text="${thread.body}"></p>
                 </div>
             </div>
-            <div class="card mb-4 ms-5 me-5" th:each="message: ${messages}">
+            <div class="card mb-4 ms-5 me-5" th:each="message : ${messages}">
                 <div class="card-body">
+                    <!-- Информация о сообщении (номер и дата-время) – всегда сверху -->
                     <div class="small text-muted"
-                         th:text="${message.id + ' ' + #temporals.format(message.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
-                    <p class="card-text" th:text="${message.message_body}"></p>
-                    <div class="attachments" th:each="thumbnail : ${message.thumbnails}">
-                        <img th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}" alt="Thumbnail"
-                             th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
-                             onclick="loadFullImage(this)">
-                        <div class="full-image-container"></div>
+                         th:text="${message.id + ' ' + #temporals.format(message.dateTime, 'dd-MM-yyyy HH:mm:ss')}">
+                    </div>
+
+                    <div th:if="${message.thumbnails.size() > 0}" class="d-flex align-items-start mt-2">
+                        <div class="attachments">
+
+                            <img th:each="thumbnail : ${message.thumbnails}"
+                                 class = "me-4 mt-1"
+                                 th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}"
+                                 alt="Thumbnail"
+                                 th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
+                                 onclick="loadFullImage(this)"/>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <p class="card-text" th:text="${message.message_body}"></p>
+                        </div>
+                    </div>
+
+                    <div th:if="${message.thumbnails.size() == 0}" class="mt-2">
+                        <p class="card-text" th:text="${message.message_body}"></p>
                     </div>
                 </div>
             </div>
@@ -94,13 +109,15 @@
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormBottom"
                      data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post" enctype="multipart/form-data">
+                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
+                              enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
                                 <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
                                           id="messageAreaBot" rows="5" placeholder="Комментарий" required></textarea>
 
                                 <div id="dropZoneBottom" class="border rounded p-3 text-center bg-light">
-                                    Перетащите файлы сюда или <label for="fileInputBottom" class="text-primary">выберите файлы</label>.
+                                    Перетащите файлы сюда или <label for="fileInputBottom" class="text-primary">выберите
+                                    файлы</label>.
                                     <input type="file" id="fileInputBottom" name="files" class="d-none" multiple>
                                 </div>
 

@@ -50,3 +50,26 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 #threadHead {
     resize: none;
 }
+
+
+.full-image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1050; /* Чтобы окно было выше прочего контента */
+}
+
+.full-image-modal img {
+    /* Если исходное изображение меньше, оно отобразится в оригинальном размере,
+       а если больше – ограничится 90% от размеров окна */
+    max-width: 90vw;
+    max-height: 90vh;
+}
+

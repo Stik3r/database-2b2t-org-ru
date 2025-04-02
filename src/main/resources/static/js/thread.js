@@ -181,18 +181,27 @@ function makePreview(filePreview, file) {
     }
 }
 
-function loadFullImage(thumbnailElement) {
-    const fullImageUrl = thumbnailElement.getAttribute('data-full-url');
+function loadFullImage(thumbnail) {
+    // Получаем URL полного изображения из data-атрибута
+    const fullUrl = thumbnail.getAttribute('data-full-url');
 
-    fetch(fullImageUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            const fullImageUrl = URL.createObjectURL(blob);
-            const container = thumbnailElement.nextElementSibling;
+    // Создаем оверлей-модальное окно
+    const modal = document.createElement('div');
+    modal.classList.add('full-image-modal');
 
-            // Отображение полноразмерного изображения
-            container.innerHTML = `<img src="${fullImageUrl}" alt="Full Image">`;
-        })
-        .catch(error => console.error('Ошибка загрузки изображения:', error));
+    // Создаем элемент изображения
+    const fullImage = document.createElement('img');
+    fullImage.src = fullUrl;
+
+    // Добавляем изображение в модальное окно
+    modal.appendChild(fullImage);
+
+    // По клику на оверлей закрываем его (удаляем из DOM)
+    modal.addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+
+    // Добавляем модальное окно в body
+    document.body.appendChild(modal);
 }
 

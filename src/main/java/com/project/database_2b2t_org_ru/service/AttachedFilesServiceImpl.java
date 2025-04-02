@@ -112,13 +112,14 @@ public class AttachedFilesServiceImpl implements AttachedFilesService {
             ByteArrayInputStream bis = new ByteArrayInputStream(originalFile);
             BufferedImage originalBufferedImage = ImageIO.read(bis);
 
-            // Создаем миниатюру нужного размера (с сохранением пропорций)
-            BufferedImage thumbnail = Thumbnails.of(originalBufferedImage)
-                    .size(width, height)
-                    .asBufferedImage();
-
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(thumbnail, "jpg", baos);
+
+
+            Thumbnails.of(originalBufferedImage)
+                    .size(width, height)
+                    .outputFormat("jpg")
+                    .toOutputStream(baos);
+
 
             return baos.toByteArray();
         }
@@ -168,7 +169,7 @@ public class AttachedFilesServiceImpl implements AttachedFilesService {
                 thumbnail.setImageId(file.getId());
                 result.add(thumbnail);
             } catch (IOException e) {
-
+                return null;
             }
         }
         return result;
