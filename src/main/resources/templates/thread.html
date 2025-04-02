@@ -78,17 +78,11 @@
                     <div class="small text-muted"
                          th:text="${message.id + ' ' + #temporals.format(message.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></div>
                     <p class="card-text" th:text="${message.message_body}"></p>
-                    <div class="attachments" th:each="attachment : ${message.attachedFiles}">
-
-                        <div th:if="${#strings.startsWith(attachment.fileType, 'image')}">
-                            <img th:src="@{/api/files/{id}(id=${attachment.id})}" alt="Изображение" />
-                        </div>
-                        <div th:if="${#strings.startsWith(attachment.fileType, 'video')}">
-                            <video controls>
-                                <source th:src="@{/api/files/{id}(id=${attachment.id})}" th:type="${attachment.fileType}" />
-                                Ваш браузер не поддерживает видео.
-                            </video>
-                        </div>
+                    <div class="attachments" th:each="thumbnail : ${message.thumbnails}">
+                        <img th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}" alt="Thumbnail"
+                             th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
+                             onclick="loadFullImage(this)">
+                        <div class="full-image-container"></div>
                     </div>
                 </div>
             </div>

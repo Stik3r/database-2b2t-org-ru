@@ -181,3 +181,18 @@ function makePreview(filePreview, file) {
     }
 }
 
+function loadFullImage(thumbnailElement) {
+    const fullImageUrl = thumbnailElement.getAttribute('data-full-url');
+
+    fetch(fullImageUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            const fullImageUrl = URL.createObjectURL(blob);
+            const container = thumbnailElement.nextElementSibling;
+
+            // Отображение полноразмерного изображения
+            container.innerHTML = `<img src="${fullImageUrl}" alt="Full Image">`;
+        })
+        .catch(error => console.error('Ошибка загрузки изображения:', error));
+}
+

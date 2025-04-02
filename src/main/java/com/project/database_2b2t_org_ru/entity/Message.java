@@ -9,6 +9,27 @@ import java.util.List;
 @Table(name = "message_dbt")
 public class Message {
 
+    public static class Thumbnail{
+        private long imageId;
+        private String base64Image;
+        public long getImageId() {
+            return imageId;
+        }
+
+        public void setImageId(long imageId) {
+            this.imageId = imageId;
+        }
+
+        public String getBase64Image() {
+            return base64Image;
+        }
+
+        public void setBase64Image(String base64Image) {
+            this.base64Image = base64Image;
+        }
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,7 +49,7 @@ public class Message {
     private List<AttachedFiles> attachedFiles;
 
     @Transient
-    private List<byte[]> thumbnails;
+    private List<Thumbnail> thumbnails;
 
     public List<AttachedFiles> getAttachedFiles() {
         return attachedFiles;
@@ -70,11 +91,11 @@ public class Message {
         this.dateTime = dateTime;
     }
 
-    public List<byte[]> getThumbnails() {
+    public List<Thumbnail> getThumbnails() {
         return thumbnails;
     }
 
-    public void setThumbnails(List<byte[]> thumbnails) {
+    public void setThumbnails(List<Thumbnail> thumbnails) {
         this.thumbnails = thumbnails;
     }
 }

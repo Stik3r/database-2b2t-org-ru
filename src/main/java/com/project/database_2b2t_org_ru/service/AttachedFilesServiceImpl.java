@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -146,18 +147,35 @@ public class AttachedFilesServiceImpl implements AttachedFilesService {
         return baos.toByteArray();
     }
 
-    public List<byte[]> createImageThumbnailList(List<AttachedFiles> originalFiles, int width, int height) {
-        List<byte[]> result = new ArrayList<>();
+    public List<Message.Thumbnail> createImageThumbnailList(List<AttachedFiles> originalFiles, int width, int height) {
+        List<Message.Thumbnail> result = new ArrayList<>();
         for (AttachedFiles file : originalFiles) {
             try {
+                var thumbnail = new Message.Thumbnail();
+
                 if (file.getFileType().startsWith("image/"))
-                    result.add(createImageThumbnail(file.getFileBytea(), width, height, true));
+                {
+                    thumbnail.setBase64Image(
+                            convertToBase64(
+                            createImageThumbnail(file.getFileBytea(), width, height, true)));
+                }
                 else
-                    result.add(createImageThumbnail(file.getFileBytea(), width, height, false));
+                {
+                    thumbnail.setBase64Image(
+                            convertToBase64(
+                                    createImageThumbnail(file.getFileBytea(), width, height, false)));
+                }
+                thumbnail.setImageId(file.getId());
+                result.add(thumbnail);
             } catch (IOException e) {
 
             }
         }
         return result;
     }
+
+    public String convertToBase64(byte[] thumbnail) {
+        return Base64.getEncoder().encodeToString(thumbnail);
+    }
+
 } 
