@@ -11,7 +11,12 @@ window.addEventListener("scroll", () => {
 const loadThreads = async () => {
     const response = await fetch(`/api/threads?page=${page}&size=${size}`);
     const threads = await response.json();
+
+    let notZeroThread = false;
+
+
     threads.forEach(thread => {
+        notZeroThread = true;
         const threadElement = document.createElement("div");
         threadElement.className = "card mb-4 ms-5 me-5";
         threadElement.innerHTML = `
@@ -24,5 +29,5 @@ const loadThreads = async () => {
         `;
         container.appendChild(threadElement);
     });
-    page++;
+    page = notZeroThread ? page + 1 : page;
 };

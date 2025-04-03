@@ -3,7 +3,7 @@ package com.project.database_2b2t_org_ru.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="att_files_dbt")
+@Table(name = "att_files_dbt")
 public class AttachedFiles {
 
     @Id

@@ -84,7 +84,7 @@
                         <div class="attachments">
 
                             <img th:each="thumbnail : ${message.thumbnails}"
-                                 class = "me-4 mt-1"
+                                 class="me-4 mt-1"
                                  th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}"
                                  alt="Thumbnail"
                                  th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"

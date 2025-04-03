@@ -1,11 +1,10 @@
 package com.project.database_2b2t_org_ru.controller;
 
-import com.project.database_2b2t_org_ru.entity.AttachedFiles;
 import com.project.database_2b2t_org_ru.entity.Message;
 import com.project.database_2b2t_org_ru.entity.Thread;
 import com.project.database_2b2t_org_ru.service.AttachedFilesServiceImpl;
-import com.project.database_2b2t_org_ru.service.interfaces.MessageService;
-import com.project.database_2b2t_org_ru.service.interfaces.ThreadService;
+import com.project.database_2b2t_org_ru.service.MessageServiceImpl;
+import com.project.database_2b2t_org_ru.service.ThreadServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class ThreadController {
 
     @Autowired
-    private ThreadService threadService;
+    private ThreadServiceImpl threadService;
     @Autowired
-    private MessageService messageService;
+    private MessageServiceImpl messageService;
     @Autowired
     private AttachedFilesServiceImpl attachedFilesService;
 
@@ -43,7 +41,7 @@ public class ThreadController {
 
             message.setThumbnails(
                     attachedFilesService.createImageThumbnailList(
-                    attachedFilesService.findAllByMessageId(message.getId()), 200, 200));
+                            attachedFilesService.findAllByMessageId(message.getId()), 200, 200));
         }
 
         model.addAttribute("newMessage", new Message());

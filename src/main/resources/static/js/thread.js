@@ -25,7 +25,7 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
         addFiles(files, fileList);
     });
 
-    // Клик для выбора файлов
+
     dropZone.addEventListener('click', (event) => {
         // Проверяем, что клик был именно по dropZone, а не по кнопке
         if (event.target === dropZone && !dropZone.classList.contains('processing')) {
@@ -35,39 +35,40 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
         }
     });
 
-    // Выбор файлов через input
+
     fileInput.addEventListener('change', (event) => {
         const files = Array.from(event.target.files);
         addFiles(files, fileList);
     });
 
-    // Добавляем обработчик отправки формы
+
     const form = dropZone.closest('form');
     form.addEventListener('submit', (event) => {
-        // Создаем новый DataTransfer объект
+
         const dataTransfer = new DataTransfer();
 
-        // Добавляем все файлы из allFiles в DataTransfer
+
         allFiles.forEach(file => {
             dataTransfer.items.add(file);
         });
 
-        // Устанавливаем файлы в input
+
         fileInput.files = dataTransfer.files;
     });
 }
 
-// Функция обработки файлов
+
 function addFiles(files, fileList) {
-    const MAX_FILE_SIZE = 50 * 1024 * 1024;
+    const MAX_FILE_SIZE = 25 * 1024 * 1024;
 
     const fileArray = Array.from(files);
 
     fileArray.forEach((file) => {
-        // Проверяем, чтобы файл не был добавлен дважды
+
+
         if (file.size > MAX_FILE_SIZE) {
             alert(`Файл "${file.name}" превышает максимально допустимый размер 50 МБ.`);
-            return; // Пропускаем файл, если он слишком большой
+            return;
         }
 
         if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
@@ -90,8 +91,6 @@ function addFiles(files, fileList) {
             alert(`Файл ${file.name} не поддерживается.`);
         }
     });
-
-    //console.log('Все файлы:', allFiles);
 }
 
 function topButton() {
@@ -152,10 +151,10 @@ function updateFileList(listId) {
 
 function makePreview(filePreview, file) {
     filePreview.className = 'border p-1 rounded'; // Для аккуратного оформления
-    filePreview.style.width = '100px'; // Фиксированный размер
+    filePreview.style.width = '100px';
     filePreview.style.height = '100px';
-    filePreview.style.overflow = 'hidden'; // Скрываем лишнее содержимое
-    filePreview.style.display = 'flex'; // Включаем flex-вёрстку внутри
+    filePreview.style.overflow = 'hidden';
+    filePreview.style.display = 'flex';
     filePreview.style.alignItems = 'center';
     filePreview.style.justifyContent = 'center';
 
@@ -166,8 +165,8 @@ function makePreview(filePreview, file) {
         img.alt = file.name;
         img.style.width = '100%';
         img.style.height = '100%';
-        img.style.objectFit = 'cover'; // Пропорционально обрезает изображение
-        img.className = 'rounded'; // Добавляем стиль округления углов
+        img.style.objectFit = 'cover';
+        img.className = 'rounded';
         filePreview.appendChild(img);
     } else if (file.type.startsWith('video/')) {
         // Превью видео
@@ -176,32 +175,27 @@ function makePreview(filePreview, file) {
         video.controls = true;
         video.style.width = '100%';
         video.style.height = '100%';
-        video.className = 'rounded'; // Тоже добавляем округление
+        video.className = 'rounded';
         filePreview.appendChild(video);
     }
 }
 
 function loadFullImage(thumbnail) {
-    // Получаем URL полного изображения из data-атрибута
+
     const fullUrl = thumbnail.getAttribute('data-full-url');
 
-    // Создаем оверлей-модальное окно
     const modal = document.createElement('div');
     modal.classList.add('full-image-modal');
 
-    // Создаем элемент изображения
     const fullImage = document.createElement('img');
     fullImage.src = fullUrl;
 
-    // Добавляем изображение в модальное окно
     modal.appendChild(fullImage);
 
-    // По клику на оверлей закрываем его (удаляем из DOM)
-    modal.addEventListener('click', function() {
+    modal.addEventListener('click', function () {
         document.body.removeChild(modal);
     });
 
-    // Добавляем модальное окно в body
     document.body.appendChild(modal);
 }
 

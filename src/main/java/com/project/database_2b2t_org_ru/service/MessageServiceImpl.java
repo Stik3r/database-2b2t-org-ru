@@ -2,7 +2,7 @@ package com.project.database_2b2t_org_ru.service;
 
 import com.project.database_2b2t_org_ru.dao.MessageRepository;
 import com.project.database_2b2t_org_ru.entity.Message;
-import com.project.database_2b2t_org_ru.service.interfaces.MessageService;
+import com.project.database_2b2t_org_ru.service.interfaces.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MessageServiceImpl implements MessageService {
+public class MessageServiceImpl implements MainService<Message> {
 
     @Autowired
     MessageRepository messageRepository;
@@ -40,7 +40,7 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.deleteById(id);
     }
 
-    @Override
+
     public List<Message> getAllMessafeForThread(long threadId) {
         return messageRepository.findAllByThreadId(threadId);
     }

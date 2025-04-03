@@ -3,8 +3,7 @@ package com.project.database_2b2t_org_ru.service;
 import com.project.database_2b2t_org_ru.dao.AttachedFilesRepository;
 import com.project.database_2b2t_org_ru.entity.AttachedFiles;
 import com.project.database_2b2t_org_ru.entity.Message;
-import com.project.database_2b2t_org_ru.service.interfaces.AttachedFilesService;
-import com.project.database_2b2t_org_ru.service.interfaces.MessageService;
+import com.project.database_2b2t_org_ru.service.interfaces.MainService;
 import org.apache.tika.Tika;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
@@ -25,16 +24,17 @@ import java.util.Base64;
 import java.util.List;
 
 @Service
-public class AttachedFilesServiceImpl implements AttachedFilesService {
-
-    private static final long MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-    private final Tika tika = new Tika();
+public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
 
     @Autowired
     private AttachedFilesRepository attachedFilesRepository;
 
     @Autowired
-    private MessageService messageService;
+    private MessageServiceImpl messageService;
+
+    private static final long MAX_FILE_SIZE = 25 * 1024 * 1024; // 50MB
+    private final Tika tika = new Tika();
+
 
     @Override
     public List<AttachedFiles> getAllObjects() {
@@ -56,7 +56,7 @@ public class AttachedFilesServiceImpl implements AttachedFilesService {
         attachedFilesRepository.deleteById(id);
     }
 
-    @Override
+
     public List<AttachedFiles> processFiles(MultipartFile[] files, long messageId) throws IOException {
         List<AttachedFiles> attachedFiles = new ArrayList<>();
         Message message = messageService.getObjectById(messageId);
@@ -94,7 +94,6 @@ public class AttachedFilesServiceImpl implements AttachedFilesService {
         return attachedFilesRepository.saveAll(attachedFiles);
     }
 
-    @Override
     public List<AttachedFiles> findAllByMessageId(long messageId) {
         return attachedFilesRepository.findByMessageId(messageId);
     }
@@ -154,14 +153,11 @@ public class AttachedFilesServiceImpl implements AttachedFilesService {
             try {
                 var thumbnail = new Message.Thumbnail();
 
-                if (file.getFileType().startsWith("image/"))
-                {
+                if (file.getFileType().startsWith("image/")) {
                     thumbnail.setBase64Image(
                             convertToBase64(
-                            createImageThumbnail(file.getFileBytea(), width, height, true)));
-                }
-                else
-                {
+                                    createImageThumbnail(file.getFileBytea(), width, height, true)));
+                } else {
                     thumbnail.setBase64Image(
                             convertToBase64(
                                     createImageThumbnail(file.getFileBytea(), width, height, false)));

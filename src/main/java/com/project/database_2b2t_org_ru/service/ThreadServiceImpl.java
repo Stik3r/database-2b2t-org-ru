@@ -2,7 +2,7 @@ package com.project.database_2b2t_org_ru.service;
 
 import com.project.database_2b2t_org_ru.dao.ThreadRepository;
 import com.project.database_2b2t_org_ru.entity.Thread;
-import com.project.database_2b2t_org_ru.service.interfaces.ThreadService;
+import com.project.database_2b2t_org_ru.service.interfaces.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ThreadServiceImpl implements ThreadService {
+public class ThreadServiceImpl implements MainService<Thread> {
 
     @Autowired
     private ThreadRepository threadRepository;
@@ -43,7 +43,7 @@ public class ThreadServiceImpl implements ThreadService {
         threadRepository.deleteById(id);
     }
 
-    @Override
+
     public List<Thread> findAllOnPage(int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "lastUpdate"));
         Page<Thread> threadPage = threadRepository.findAll(pageable);

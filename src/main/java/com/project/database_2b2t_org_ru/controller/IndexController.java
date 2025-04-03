@@ -1,7 +1,7 @@
 package com.project.database_2b2t_org_ru.controller;
 
 import com.project.database_2b2t_org_ru.entity.Thread;
-import com.project.database_2b2t_org_ru.service.interfaces.ThreadService;
+import com.project.database_2b2t_org_ru.service.ThreadServiceImpl;
 import com.project.database_2b2t_org_ru.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 public class IndexController {
     @Autowired
-    private ThreadService threadService;
+    private ThreadServiceImpl threadService;
 
     @RequestMapping("/")
     public String showIndex(Model model) {
