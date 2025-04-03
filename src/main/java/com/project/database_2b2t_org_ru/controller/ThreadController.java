@@ -38,10 +38,11 @@ public class ThreadController {
 
         // Получаем файлы для каждого сообщения
         for (Message message : messages) {
+            var files = attachedFilesService.findAllByMessageId(message.getId());
 
+            message.setAttachedFiles(files);
             message.setThumbnails(
-                    attachedFilesService.createImageThumbnailList(
-                            attachedFilesService.findAllByMessageId(message.getId()), 200, 200));
+                    attachedFilesService.createImageThumbnailList(files, 200, 200));
         }
 
         model.addAttribute("newMessage", new Message());

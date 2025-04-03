@@ -5,9 +5,12 @@ import com.project.database_2b2t_org_ru.entity.AttachedFiles;
 import com.project.database_2b2t_org_ru.entity.Message;
 import com.project.database_2b2t_org_ru.service.interfaces.MainService;
 import org.apache.tika.Tika;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.Java2DFrameConverter;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.videoio.VideoCapture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +22,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -105,7 +110,7 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
 
     public byte[] createImageThumbnail(byte[] originalFile, int width, int height, boolean isPicture) throws IOException {
 
-        if (isPicture) {
+        if (isPicture) { // Обработка фоток
             ImageIO.scanForPlugins();
 
             ByteArrayInputStream bis = new ByteArrayInputStream(originalFile);
@@ -122,29 +127,48 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
 
             return baos.toByteArray();
         }
+        //Обработка видео
+        Path tempVideoFile = Files.createTempFile("video", ".mp4");
+        Files.write(tempVideoFile, originalFile);
 
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(originalFile);
+        VideoCapture capture = new VideoCapture(tempVideoFile.toString());
+        Mat frame = new Mat();
 
-        FFmpegFrameGrabber frameGrabber = new FFmpegFrameGrabber(inputStream);
-        frameGrabber.start();
 
-        Frame frame = frameGrabber.grabImage();
-        frameGrabber.stop();
+        if (!capture.isOpened()) {
+            capture.release();
+            Files.deleteIfExists(tempVideoFile);
+            throw new RuntimeException("Не удалось открыть видеофайл.");
+        }
 
-        if (frame == null) {
+        boolean readSuccess = capture.read(frame);
+        capture.release();
+
+        Files.deleteIfExists(tempVideoFile);
+
+        if (!readSuccess) {
             throw new RuntimeException("Не удалось извлечь кадр из видео.");
         }
 
-        Java2DFrameConverter converter = new Java2DFrameConverter();
-        BufferedImage bufferedImage = converter.convert(frame);
+        int originalWidth = frame.width();
+        int originalHeight = frame.height();
 
-        BufferedImage thumbnail = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        thumbnail.getGraphics().drawImage(bufferedImage, 0, 0, width, height, null);
+        double scaleWidth = (double) width / originalWidth;
+        double scaleHeight = (double) height / originalHeight;
+        double scaleFactor = Math.min(scaleWidth, scaleHeight);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(thumbnail, "jpg", baos);
+        //масштабируем его
+        if (scaleFactor < 1.0) {
+            int newWidth = (int) Math.round(originalWidth * scaleFactor);
+            int newHeight = (int) Math.round(originalHeight * scaleFactor);
+            Mat resizedFrame = new Mat();
+            Imgproc.resize(frame, resizedFrame, new Size(newWidth, newHeight));
+            frame = resizedFrame;
+        }
 
-        return baos.toByteArray();
+        MatOfByte mob = new MatOfByte();
+        Imgcodecs.imencode(".jpg", frame, mob);
+        return mob.toArray();
     }
 
     public List<Message.Thumbnail> createImageThumbnailList(List<AttachedFiles> originalFiles, int width, int height) {
@@ -157,10 +181,12 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
                     thumbnail.setBase64Image(
                             convertToBase64(
                                     createImageThumbnail(file.getFileBytea(), width, height, true)));
+                    thumbnail.setSourceType("image");
                 } else {
                     thumbnail.setBase64Image(
                             convertToBase64(
                                     createImageThumbnail(file.getFileBytea(), width, height, false)));
+                    thumbnail.setSourceType("video");
                 }
                 thumbnail.setImageId(file.getId());
                 result.add(thumbnail);

@@ -80,15 +80,45 @@
                          th:text="${message.id + ' ' + #temporals.format(message.dateTime, 'dd-MM-yyyy HH:mm:ss')}">
                     </div>
 
-                    <div th:if="${message.thumbnails.size() > 0}" class="d-flex align-items-start mt-2">
-                        <div class="attachments">
+                    <div th:if="${message.thumbnails.size() > 1}">
+                        <div class="d-flex align-items-start mt-2">
+                            <div th:each="thumbnail: ${message.thumbnails}" class="attachments">
+                                <img th:if="${thumbnail.sourceType == 'image'}"
+                                     class="me-4 mt-1"
+                                     th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}"
+                                     alt="Thumbnail"
+                                     th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
+                                     onclick="loadFullImage(this)"/>
 
-                            <img th:each="thumbnail : ${message.thumbnails}"
+                                <img th:if="${thumbnail.sourceType == 'video'}"
+                                     class="me-4 mt-1"
+                                     th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}"
+                                     alt="Thumbnail"
+                                     th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
+                                     onclick="loadFullVideo(this)"/>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 mt-3">
+                            <p class="card-text" th:text="${message.message_body}"></p>
+                        </div>
+                    </div>
+
+
+                    <div th:if="${message.thumbnails.size() == 1}" class="d-flex align-items-start mt-2">
+                        <div th:each="thumbnail: ${message.thumbnails}" class="attachments">
+                            <img th:if="${thumbnail.sourceType == 'image'}"
                                  class="me-4 mt-1"
                                  th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}"
                                  alt="Thumbnail"
                                  th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
                                  onclick="loadFullImage(this)"/>
+
+                            <img th:if="${thumbnail.sourceType == 'video'}"
+                                 class="me-4 mt-1"
+                                 th:src="'data:image/jpg;base64,' + ${thumbnail.base64Image}"
+                                 alt="Thumbnail"
+                                 th:attr="data-full-url=@{/api/files/} + ${thumbnail.imageId}"
+                                 onclick="loadFullVideo(this)"/>
                         </div>
 
                         <div class="flex-grow-1">

@@ -13,6 +13,8 @@ public class Database2b2tOrgRuApplication {
         System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
         System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
 
+        nu.pattern.OpenCV.loadLocally();
+
         SpringApplication.run(Database2b2tOrgRuApplication.class, args);
     }
 

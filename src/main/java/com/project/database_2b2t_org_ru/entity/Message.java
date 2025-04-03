@@ -12,6 +12,7 @@ public class Message {
     public static class Thumbnail{
         private long imageId;
         private String base64Image;
+        private String sourceType;
         public long getImageId() {
             return imageId;
         }
@@ -28,6 +29,13 @@ public class Message {
             this.base64Image = base64Image;
         }
 
+        public String getSourceType() {
+            return sourceType;
+        }
+
+        public void setSourceType(String sourceType) {
+            this.sourceType = sourceType;
+        }
     }
 
     @Id

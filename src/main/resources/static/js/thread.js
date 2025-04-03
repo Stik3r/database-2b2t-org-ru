@@ -180,14 +180,27 @@ function makePreview(filePreview, file) {
     }
 }
 
-function loadFullImage(thumbnail) {
+function loadFullImage(thumbnail){
+    loadFullFile(thumbnail, 'img');
+}
+
+function loadFullVideo(thumbnail){
+    loadFullFile(thumbnail, 'video');
+}
+
+function loadFullFile(thumbnail, fileType) {
 
     const fullUrl = thumbnail.getAttribute('data-full-url');
 
     const modal = document.createElement('div');
     modal.classList.add('full-image-modal');
 
-    const fullImage = document.createElement('img');
+    const fullImage = document.createElement(fileType);
+
+    if (fileType === 'video') {
+        fullImage.setAttribute('controls', ''); // Показываем элементы управления
+        fullImage.setAttribute('autoplay', '');  // Опционально автозапуск
+    }
     fullImage.src = fullUrl;
 
     modal.appendChild(fullImage);
