@@ -1,5 +1,7 @@
 package com.project.database_2b2t_org_ru.service;
 
+import com.j256.simplemagic.ContentInfo;
+import com.j256.simplemagic.ContentInfoUtil;
 import com.project.database_2b2t_org_ru.dao.AttachedFilesRepository;
 import com.project.database_2b2t_org_ru.entity.AttachedFiles;
 import com.project.database_2b2t_org_ru.entity.Message;
@@ -75,11 +77,22 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
 
             // Проверка размера файла
             if (file.getSize() > MAX_FILE_SIZE) {
-                throw new IllegalArgumentException("File " + file.getOriginalFilename() + " exceeds maximum size of 50MB");
+                throw new IllegalArgumentException("File " + file.getOriginalFilename() + " exceeds maximum size of 25MB");
             }
 
-            // Определение реального типа файла через Tika
-            String detectedType = tika.detect(file.getBytes());
+            var fileName = file.getOriginalFilename();
+
+            String detectedType;
+
+            if (fileName.substring(fileName.length() - 5, fileName.length()).equals(".webm")) {
+                ContentInfoUtil util = new ContentInfoUtil();
+                ContentInfo info = util.findMatch(file.getBytes());
+                detectedType = info.getMimeType();
+            }
+            else {
+                detectedType = tika.detect(file.getBytes());
+            }
+
 
             // Проверка типа файла
             if (!isAllowedFileType(detectedType)) {

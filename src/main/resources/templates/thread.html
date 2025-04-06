@@ -46,7 +46,7 @@
                         <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
                               enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
-                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
+                                <textarea th:field="*{message_body}" maxlength="5000" class="form-control"
                                           id="messageAreaTop" rows="5" placeholder="Комментарий" required></textarea>
 
                                 <div id="dropZoneTop" class="border rounded p-3 text-center bg-light">
@@ -142,7 +142,7 @@
                         <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
                               enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
-                                <textarea th:field="*{message_body}" minlength="2" maxlength="5000" class="form-control"
+                                <textarea th:field="*{message_body}" maxlength="5000" class="form-control"
                                           id="messageAreaBot" rows="5" placeholder="Комментарий" required></textarea>
 
                                 <div id="dropZoneBottom" class="border rounded p-3 text-center bg-light">

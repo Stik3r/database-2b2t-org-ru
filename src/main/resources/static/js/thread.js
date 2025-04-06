@@ -71,6 +71,7 @@ function addFiles(files, fileList) {
             return;
         }
 
+        console.log(file.type);
         if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
 
             if (allFiles.length >= 4) {
