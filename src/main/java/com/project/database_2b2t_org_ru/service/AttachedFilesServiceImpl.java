@@ -39,8 +39,10 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
     @Autowired
     private MessageServiceImpl messageService;
 
-    private static final long MAX_FILE_SIZE = 25 * 1024 * 1024; // 50MB
+    private static final long MAX_FILE_SIZE = 25 * 1024 * 1024;
     private final Tika tika = new Tika();
+    private final int width = 200;
+    private final int height = 200;
 
 
     @Override
@@ -99,12 +101,17 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
                 throw new IllegalArgumentException("File type " + detectedType + " is not allowed");
             }
 
+            boolean isPicture = detectedType.startsWith("image/") ? true : false;
+
             // Создание и настройка AttachedFiles
             AttachedFiles attachedFile = new AttachedFiles();
             attachedFile.setFileName(file.getOriginalFilename());
             attachedFile.setFileType(detectedType);
             attachedFile.setFileBytea(file.getBytes());
             attachedFile.setMessage(message);
+            attachedFile.setThumbnailbase64image(
+                    convertToBase64(createImageThumbnail(file.getBytes(), width, height, isPicture))
+            );
 
             attachedFiles.add(attachedFile);
         }
@@ -184,28 +191,15 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
         return mob.toArray();
     }
 
-    public List<Message.Thumbnail> createImageThumbnailList(List<AttachedFiles> originalFiles, int width, int height) {
+    public List<Message.Thumbnail> createImageThumbnailList(List<AttachedFiles> originalFiles) {
         List<Message.Thumbnail> result = new ArrayList<>();
         for (AttachedFiles file : originalFiles) {
-            try {
-                var thumbnail = new Message.Thumbnail();
+            var thumbnail = new Message.Thumbnail();
 
-                if (file.getFileType().startsWith("image/")) {
-                    thumbnail.setBase64Image(
-                            convertToBase64(
-                                    createImageThumbnail(file.getFileBytea(), width, height, true)));
-                    thumbnail.setSourceType("image");
-                } else {
-                    thumbnail.setBase64Image(
-                            convertToBase64(
-                                    createImageThumbnail(file.getFileBytea(), width, height, false)));
-                    thumbnail.setSourceType("video");
-                }
-                thumbnail.setImageId(file.getId());
-                result.add(thumbnail);
-            } catch (IOException e) {
-                return null;
-            }
+            thumbnail.setSourceType(file.getFileType().substring(0,5));
+            thumbnail.setImageId(file.getId());
+            thumbnail.setBase64Image(file.getThumbnailbase64image());
+            result.add(thumbnail);
         }
         return result;
     }

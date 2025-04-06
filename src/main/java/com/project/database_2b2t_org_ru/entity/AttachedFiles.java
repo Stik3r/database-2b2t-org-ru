@@ -25,6 +25,9 @@ public class AttachedFiles {
     @JoinColumn(name = "message_id")
     private Message message;
 
+    @Column(name = "thumbnail_base64image")
+    private String thumbnailbase64image;
+
     public Long getId() {
         return id;
     }
@@ -63,5 +66,13 @@ public class AttachedFiles {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public String getThumbnailbase64image() {
+        return thumbnailbase64image;
+    }
+
+    public void setThumbnailbase64image(String thumbnailbase64image) {
+        this.thumbnailbase64image = thumbnailbase64image;
     }
 }

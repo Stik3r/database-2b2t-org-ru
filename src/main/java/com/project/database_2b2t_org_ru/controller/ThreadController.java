@@ -42,7 +42,7 @@ public class ThreadController {
 
             message.setAttachedFiles(files);
             message.setThumbnails(
-                    attachedFilesService.createImageThumbnailList(files, 200, 200));
+                    attachedFilesService.createImageThumbnailList(files));
         }
 
         model.addAttribute("newMessage", new Message());
