@@ -8,7 +8,7 @@ function setupDropZone(dropZoneId, fileInputId, fileListId) {
     const fileInput = document.getElementById(fileInputId);
     const fileList = document.getElementById(fileListId);
 
-    // Перетаскивание файлов
+
     dropZone.addEventListener('dragover', (event) => {
         event.preventDefault();
         dropZone.classList.add('border-primary');

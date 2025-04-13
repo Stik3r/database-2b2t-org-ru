@@ -66,7 +66,7 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
     }
 
 
-    public List<AttachedFiles> processFiles(MultipartFile[] files, long messageId) throws IOException {
+    public void processFiles(MultipartFile[] files, long messageId) throws IOException {
         List<AttachedFiles> attachedFiles = new ArrayList<>();
         Message message = messageService.getObjectById(messageId);
 
@@ -116,7 +116,7 @@ public class AttachedFilesServiceImpl implements MainService<AttachedFiles> {
             attachedFiles.add(attachedFile);
         }
 
-        return attachedFilesRepository.saveAll(attachedFiles);
+        attachedFilesRepository.saveAll(attachedFiles);
     }
 
     public List<AttachedFiles> findAllByMessageId(long messageId) {
