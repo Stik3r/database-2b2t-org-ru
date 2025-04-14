@@ -8,6 +8,24 @@ import java.util.Set;
 @Table(name = "role_dbt")
 public class Role {
 
+    public enum ROLES {
+        ROLE_EMPTY((short) 1),
+        ROLE_ADMIN((short) 2),
+        ROLE_MODER((short) 3),
+        ROLE_USER((short) 4),
+        ROLE_GUEST((short) 5);
+
+        private final short id;
+
+        ROLES(short id){
+            this.id = id;
+        }
+
+        public short getId(){
+            return id;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

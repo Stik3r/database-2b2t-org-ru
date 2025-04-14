@@ -24,7 +24,7 @@ const loadThreads = async () => {
                 <div class="small text-muted">${thread.firstMessageID} ${new Date(thread.dateTime).toLocaleString()}</div>
                 <h2 class="card-title">${thread.head_thread}</h2>
                 <p class="card-text">${thread.body}</p>
-                <a class="btn btn-primary btn-sm" href="/${thread.id}">Ответить</a>
+                <a class="btn btn-primary btn-sm" href="thread/${thread.id}">Ответить</a>
             </div>
         `;
         container.appendChild(threadElement);

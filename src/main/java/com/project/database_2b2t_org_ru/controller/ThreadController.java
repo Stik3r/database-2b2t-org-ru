@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/thread")
 public class ThreadController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class ThreadController {
         Thread thread = threadService.getObjectById(Integer.parseInt(id));
         model.addAttribute("thread", thread);
 
-        List<Message> messages = messageService.getAllMessafeForThread(Long.parseLong(id));
+        List<Message> messages = messageService.getAllMessageForThread(Long.parseLong(id));
         messages.remove(0);
         model.addAttribute("messages", messages);
 

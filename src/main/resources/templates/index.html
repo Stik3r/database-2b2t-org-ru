@@ -29,8 +29,7 @@
             <div class="container-fluid">
                 <button class="btn btn-primary" id="sidebarToggle">Menu</button>
                 <div class="ms-auto">
-                    <a class="btn btn-outline-primary me-2" href="/login">Войти</a>
-                    <a class="btn btn-outline-success" href="/register">Зарегистрироваться</a>
+                    <a class="btn btn-outline-primary me-2" href="auth/login">Войти</a>
                 </div>
             </div>
         </nav>
@@ -44,7 +43,7 @@
                 </button>
                 <div class="collapse w-75 mx-auto" id="messageForm">
                     <div class="card card-body">
-                        <form th:action="@{/makeThread}" th:object="${newThread}" method="post">
+                        <form th:action="@{thread/makeThread}" th:object="${newThread}" method="post">
                             <div class="form-group mt-1 mb-2">
                                 <div class="d-flex mb-2">
                                     <input th:field="*{head_thread}" type="text" minlength="2" maxlength="1000"
@@ -66,7 +65,7 @@
                              th:text="${thread.firstMessageID + ' ' + #temporals.format(thread.dateTime, 'dd.MM.yyyy HH:mm:ss')}"></div>
                         <h2 class="card-title" th:text="${thread.head_thread}"></h2>
                         <p class="card-text" th:text="${thread.body}"></p>
-                        <a class="btn btn-primary btn-sm" th:href="@{/{threadId}(threadId=${thread.id})}">Ответить</a>
+                        <a class="btn btn-primary btn-sm" th:href="@{thread/{threadId}(threadId=${thread.id})}">Ответить</a>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ public class MessageServiceImpl implements MainService<Message> {
     }
 
 
-    public List<Message> getAllMessafeForThread(long threadId) {
+    public List<Message> getAllMessageForThread(long threadId) {
         return messageRepository.findAllByThreadId(threadId);
     }
 }
