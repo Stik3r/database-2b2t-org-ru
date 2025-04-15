@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2b2t Wiki</title>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/wikimain.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="d-flex" id="wrapper">
+
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">Форум</div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/">Forum</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/wiki">Wiki</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Server status</a>
+    </div>
+  </div>
+
+  <div id="page-content-wrapper">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <div class="container-fluid">
+        <button class="btn btn-primary" id="sidebarToggle">Menu</button>
+        <div class="ms-auto">
+          <a class="btn btn-outline-primary me-2" href="auth/login">Войти</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container text-center py-5">
+      <!-- Картинка -->
+      <img src="your-cube-image.png" alt="2b2t Logo" class="logo-image">
+
+      <!-- Заголовок -->
+      <div class="wiki-title">2b2t.org.ru Wiki</div>
+
+      <!-- Строка поиска + кнопка -->
+      <div class="search-container mx-auto mt-4">
+        <div class="input-group">
+          <input type="text" class="form-control search-input" placeholder="Поиск по вики...">
+          <button class="btn search-button" type="button">Поиск</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

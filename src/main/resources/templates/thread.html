@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Simple Sidebar - Start Bootstrap Template</title>
-    <!-- Core theme CSS (includes Bootstrap)-->
+
     <link href="/css/bootstrap.css" rel="stylesheet"/>
     <link href="/css/additionalStyles.css" rel="stylesheet"/>
 </head>
@@ -17,7 +17,7 @@
         <div class="sidebar-heading border-bottom bg-light">Database</div>
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/">Forum</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Wiki</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/wiki">Wiki</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Server status</a>
         </div>
     </div>
@@ -34,7 +34,7 @@
         </nav>
         <!-- Page content-->
         <div class="container-fluid accordion" id="mainContainer">
-            <div class="container mt-5 mb-5 text-center">
+            <div class="container mt-5 mb-5 text-center" sec:authorize="isAuthenticated()">
                 <button onclick="topButton()" id="topButton" class="btn btn-primary thread-maker mb-2 btn-sm"
                         type="button" data-bs-toggle="collapse" data-bs-target="#messageFormTop" aria-expanded="false"
                         aria-controls="messageFormTop">Ответить
@@ -130,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container mt-5 mb-5 text-center">
+            <div class="container mt-5 mb-5 text-center" sec:authorize="isAuthenticated()">
                 <button onclick="botButton()" class="btn btn-primary thread-maker mb-2 btn-sm" type="button"
                         data-bs-toggle="collapse" data-bs-target="#messageFormBottom" aria-expanded="false"
                         aria-controls="messageFormBottom">Ответить
