@@ -42,7 +42,7 @@
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormTop"
                      data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
+                        <form th:action="@{/thread/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
                               enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
                                 <textarea th:field="*{message_body}" maxlength="5000" class="form-control"
@@ -138,7 +138,7 @@
                 <div class="accordion-collapse collapse w-75 mx-auto" id="messageFormBottom"
                      data-bs-parent="#mainContainer">
                     <div class="card card-body">
-                        <form th:action="@{/{id}/sendMessage(id=${thread.id})}" th:object="${newMessage}" method="post"
+                        <form th:action="sendMessage" th:object="${newMessage}" method="post"
                               enctype="multipart/form-data">
                             <div class="form-group mt-1 mb-2">
                                 <textarea th:field="*{message_body}" maxlength="5000" class="form-control"

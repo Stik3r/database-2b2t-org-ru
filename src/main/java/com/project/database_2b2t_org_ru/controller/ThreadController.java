@@ -66,7 +66,7 @@ public class ThreadController {
         thread.setFirstMessageID(message.getId());
         threadService.saveObject(thread);
 
-        return "redirect:/" + String.valueOf(thread.getId());
+        return "redirect:/thread/" + String.valueOf(thread.getId());
     }
 
     @RequestMapping("/{id}/sendMessage")
@@ -94,6 +94,6 @@ public class ThreadController {
             }
         }
 
-        return "redirect:/" + id;
+        return "redirect:/thread/" + id;
     }
 }
